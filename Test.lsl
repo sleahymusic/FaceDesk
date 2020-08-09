@@ -2,6 +2,6 @@ default
 {
 	state_entry()
 	{
-		llOwnerSay("Hello World");
+		llOwnerSay("Hello World! How are you?");
 	}
 }
