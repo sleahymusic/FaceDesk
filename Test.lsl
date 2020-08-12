@@ -8,5 +8,6 @@ default
 		llOwnerSay("You are indeed!!");
 		llOwnerSay("hi");
 		// trying without fetching
+		// NEENERS YOU HAD TO FETCH ME!
 	}
 }
