@@ -9,6 +9,6 @@ default
 		llOwnerSay("hi");
 		// trying without fetching
 		// NEENERS YOU HAD TO FETCH ME!
-		// try this
+		// try this new
 	}
 }
