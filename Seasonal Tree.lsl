@@ -7,7 +7,7 @@ menu(key id)
 {
     if (id == llGetOwner() || access == 2 || (access == 1 && llSameGroup(id)))
     {
-        list main = ["Green", "Red", "Orange", "Yellow",  "Automatic"];
+        list main = ["Green", "Red", "Orange", "Yellow", "Winter", "Automatic"];
         if (id != llGetOwner()) llDialog(id,"Menu ", main, chan);
         else                   llDialog(id,"Menu ", main+["Access"], chan);
     }
@@ -19,17 +19,20 @@ integer getlink(string primname)
     return result;
 }
 
-setLeaves(string leaves, string color)
+setLeaves(string leaves, string color, string bark)
 {
   if (color == "none")
   {
     llLinkParticleSystem(getlink("leaves"), []);
   }
-  else llLinkParticleSystem(getlink("leaves"), falling_leaves());
+  else llLinkParticleSystem(getlink("leaves"), falling_leaves(color));
+  if (leaves == "6e073c4f-8211-8c04-c231-175b88b47dce") llSetLinkTextureAnim (getlink("leaves"), FALSE, ALL_SIDES, 0, 0, 0.0, 0.0, 1.0);
+  else llSetLinkTextureAnim(getlink("leaves"), ANIM_ON | SMOOTH | ROTATE | PING_PONG | LOOP, ALL_SIDES,1,1,0, .0005, .00002*TWO_PI);
   llSetLinkTexture(getlink("leaves"), leaves, ALL_SIDES);
+  llSetLinkTexture(LINK_THIS, bark, ALL_SIDES);
 }
 
-list falling_leaves()
+list falling_leaves(string color)
 {
     return [ PSYS_SRC_TEXTURE, color  // Gimped by Qie from Public Domain on Wikimedia Commons
             , PSYS_PART_FLAGS
@@ -37,9 +40,9 @@ list falling_leaves()
               | PSYS_PART_INTERP_COLOR_MASK
               | PSYS_PART_INTERP_SCALE_MASK
               | PSYS_PART_EMISSIVE_MASK     // I wouldn't, but most would
-            , PSYS_SRC_BURST_RADIUS, 1.0          // no effect w/ DROP
-            , PSYS_PART_START_SCALE, <0.05, 0.2, 0.0>
-            , PSYS_PART_END_SCALE, <0.2, 0.0, 0.0>
+            , PSYS_SRC_BURST_RADIUS, 4.0          // no effect w/ DROP
+            , PSYS_PART_START_SCALE, <0.5, 0.3, 0.0>
+            , PSYS_PART_END_SCALE, <0.5, 0.3, 0.0>
             , PSYS_PART_START_COLOR, <0.2, 0.1, 0.1>    // shaded inside tree
             , PSYS_PART_END_COLOR, <1.0, 1.0, 1.0>
             , PSYS_PART_START_ALPHA, 1.0
@@ -49,7 +52,7 @@ list falling_leaves()
             , PSYS_SRC_PATTERN, PSYS_SRC_PATTERN_ANGLE_CONE
             , PSYS_SRC_ANGLE_BEGIN, PI_BY_TWO
             , PSYS_SRC_ANGLE_END, PI
-            , PSYS_PART_MAX_AGE, 3.0
+            , PSYS_PART_MAX_AGE, 10.0
             , PSYS_SRC_BURST_RATE, 1.5
             , PSYS_SRC_BURST_PART_COUNT, 1
             , PSYS_SRC_ACCEL, <0, 0, -0.75>
@@ -78,14 +81,29 @@ default
     string yellow = "68b380df-5c13-76e4-80c7-d888f4e2ef69";
     string orange = "24053f3f-31ff-5ff7-582b-af5f7245e41a";
     string red = "8c7021f7-25a3-6f97-e35a-878227469745";
+    string winter = "6e073c4f-8211-8c04-c231-175b88b47dce";
     string emityellow = "80cd4697-d44b-490c-50eb-706b81650242";
     string emitorange = "8d070fab-431d-7a9a-5b03-605970bc399f";
     string emitred = "635fa33b-c572-200d-77b0-a074650345ad";
+    string bark = "a1b8bc49-2498-7f5f-4b11-15701f7787b4";
+    string snowybark = "60862a47-b43c-245e-a0d7-69d3df1cafa4";
     if (llListFindList(["Owner","Group","All"],[text]) != -1) access = llListFindList(["Owner","Group","All"],[text]);
     if (text == "Access") llDialog(id,"Choose access ",["Owner","Group","All"],chan);
-    if (text == "Yellow") setLeaves(yellow, emityellow);
-    if (text == "Orange") setLeaves(orange, emitorange);
-    if (text == "Red") setLeaves(red, emitred);
+    if (text == "Yellow")
+    {
+        setLeaves(yellow, emityellow, bark);
+        llSetTimerEvent(0.0);
+    }
+    if (text == "Orange")
+    {
+        setLeaves(orange, emitorange, bark);
+        llSetTimerEvent(0.0);
+    }
+    if (text == "Red")
+    {
+        setLeaves(red, emitred, bark);
+        llSetTimerEvent(0.0);
+    }
     if (text == "Automatic")
     {
         integer daynum = (integer)llGetSubString(llGetDate(),5,6)*31+(integer)llGetSubString(llGetDate(),8,9);
@@ -98,15 +116,15 @@ default
             integer random = llFloor(llFrand(3));
             if(random == 0)
             {
-                setLeaves(yellow, emityellow);
+                setLeaves(yellow, emityellow, bark);
             }
             if(random == 1)
             {
-                setLeaves(orange, emitorange);
+                setLeaves(orange, emitorange, bark);
             }
             if(random == 2)
             {
-                setLeaves(red, emitred);
+                setLeaves(red, emitred, bark);
             }
         }
         else if(daynum > 330)
@@ -114,15 +132,15 @@ default
             integer random = llFloor(llFrand(3));
             if(random == 0)
             {
-                setLeaves(yellow, emityellow);
+                setLeaves(yellow, emityellow, bark);
             }
             if(random == 1)
             {
-                setLeaves(orange, emitorange);
+                setLeaves(orange, emitorange, bark);
             }
             if(random == 2)
             {
-                setLeaves(red, emitred);
+                setLeaves(red, emitred, bark);
             }
         }
         else if(daynum > 311)
@@ -130,26 +148,39 @@ default
             integer random = llFloor(llFrand(3));
             if(random == 0)
             {
-                setLeaves(yellow, emityellow);
+                setLeaves(yellow, emityellow, bark);
             }
             if(random == 1)
             {
-                setLeaves(orange, emitorange);
+                setLeaves(orange, emitorange, bark);
             }
             if(random == 2)
             {
-                setLeaves(red, emitred);
+                setLeaves(red, emitred, bark);
             }
         }
         else if(daynum > 94)
         {
-            setLeaves(green, "none");
+            setLeaves(green, "none", bark);
         }
         else
         {
-            llLinkParticleSystem(getlink("leaves"), []  );
+            setLeaves(winter, "none", snowybark);
+
         }
         llSetTimerEvent (0.1);
+    }
+    if(text == "Green")
+    {
+        setLeaves(green, "none", bark);
+        llLinkParticleSystem(getlink("leaves"), []);
+        llSetTimerEvent(0.0);
+    }
+    if(text == "Winter")
+    {
+        setLeaves(winter, "none", snowybark);
+        llLinkParticleSystem(getlink("leaves"), []);
+        llSetTimerEvent(0.0);
     }
     if (text == "Back") menu(id);
 }
@@ -159,23 +190,26 @@ timer()
     string emitorange = "8d070fab-431d-7a9a-5b03-605970bc399f";
     string emitred = "635fa33b-c572-200d-77b0-a074650345ad";
     string green = "7cc10805-188c-5fef-f434-f1bce1907be9";
+    string winter = "6e073c4f-8211-8c04-c231-175b88b47dce";
     string yellow = "68b380df-5c13-76e4-80c7-d888f4e2ef69";
     string orange = "24053f3f-31ff-5ff7-582b-af5f7245e41a";
     string red = "8c7021f7-25a3-6f97-e35a-878227469745";
+    string bark = "a1b8bc49-2498-7f5f-4b11-15701f7787b4";
+    string snowybark = "60862a47-b43c-245e-a0d7-69d3df1cafa4";
     if (llGetSubString(llGetDate(),5,9) == "10-01")
         {
             integer random = llFloor(llFrand(3));
             if (random == 0)
             {
-                setLeaves(yellow, emityellow);
+                setLeaves(yellow, emityellow, bark);
             }
             if (random == 1)
             {
-                setLeaves(orange, emitorange);
+                setLeaves(orange, emitorange, bark);
             }
             if (random == 2)
             {
-                setLeaves(red, emitred);
+                setLeaves(red, emitred, bark);
             }
         }
         if (llGetSubString(llGetDate(),5,9) == "10-20")
@@ -183,15 +217,15 @@ timer()
             integer random = llFloor(llFrand(3));
             if (random == 0)
             {
-                setLeaves(yellow, emityellow);
+                setLeaves(yellow, emityellow, bark);
             }
             if (random == 1)
             {
-                setLeaves(orange, emitorange);
+                setLeaves(orange, emitorange, bark);
             }
             if (random == 2)
             {
-                setLeaves(red, emitred);
+                setLeaves(red, emitred, bark);
             }
         }
         if (llGetSubString(llGetDate(),5,9) == "11-10")
@@ -199,24 +233,25 @@ timer()
             integer random = llFloor(llFrand(3));
             if (random == 0)
             {
-                setLeaves(yellow, emityellow);
+                setLeaves(yellow, emityellow, bark);
             }
             if (random == 1)
             {
-                setLeaves(orange, emitorange);
+                setLeaves(orange, emitorange, bark);
             }
             if (random == 2)
             {
-                setLeaves(red, emitred);
+                setLeaves(red, emitred, bark);
             }
         }
         if (llGetSubString(llGetDate(),5,9) == "12-01")
         {
+            setLeaves(winter, "none", snowybark);
             llLinkParticleSystem(getlink("leaves"), []  );
         }
         if (llGetSubString(llGetDate(),5,9) == "03-01")
         {
-            setLeaves(green, "none");
+            setLeaves(green, "none", bark);
         }
         llSetTimerEvent(43200.0);
     }
