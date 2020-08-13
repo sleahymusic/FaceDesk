@@ -85,8 +85,8 @@ default
     string emityellow = "80cd4697-d44b-490c-50eb-706b81650242";
     string emitorange = "8d070fab-431d-7a9a-5b03-605970bc399f";
     string emitred = "635fa33b-c572-200d-77b0-a074650345ad";
-    string bark = "df9a073d-03b8-d7ef-8ad0-5437ba03e2a3";
-    string snowybark = "60862a47-b43c-245e-a0d7-69d3df1cafa4";
+    string bark = "a1b8bc49-2498-7f5f-4b11-15701f7787b4";
+    string snowybark = "df9a073d-03b8-d7ef-8ad0-5437ba03e2a3";
     if (llListFindList(["Owner","Group","All"],[text]) != -1) access = llListFindList(["Owner","Group","All"],[text]);
     if (text == "Access") llDialog(id,"Choose access ",["Owner","Group","All"],chan);
     if (text == "Yellow")
@@ -194,8 +194,8 @@ timer()
     string yellow = "68b380df-5c13-76e4-80c7-d888f4e2ef69";
     string orange = "24053f3f-31ff-5ff7-582b-af5f7245e41a";
     string red = "8c7021f7-25a3-6f97-e35a-878227469745";
-    string bark = "df9a073d-03b8-d7ef-8ad0-5437ba03e2a3";
-    string snowybark = "60862a47-b43c-245e-a0d7-69d3df1cafa4";
+    string bark = "a1b8bc49-2498-7f5f-4b11-15701f7787b4";
+    string snowybark = "df9a073d-03b8-d7ef-8ad0-5437ba03e2a3";
     if (llGetSubString(llGetDate(),5,9) == "10-01")
         {
             integer random = llFloor(llFrand(3));
