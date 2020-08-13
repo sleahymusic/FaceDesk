@@ -26,7 +26,7 @@ setLeaves(string leaves, string color, string bark)
     llLinkParticleSystem(getlink("leaves"), []);
   }
   else llLinkParticleSystem(getlink("leaves"), falling_leaves(color));
-  if (leaves == "6e073c4f-8211-8c04-c231-175b88b47dce") llSetLinkTextureAnim (getlink("leaves"), FALSE, ALL_SIDES, 0, 0, 0.0, 0.0, 1.0);
+  if (leaves == "a6af7a1a-fc95-4d29-f2df-a26b2799404b") llSetLinkTextureAnim (getlink("leaves"), FALSE, ALL_SIDES, 0, 0, 0.0, 0.0, 1.0);
   else llSetLinkTextureAnim(getlink("leaves"), ANIM_ON | SMOOTH | ROTATE | PING_PONG | LOOP, ALL_SIDES,1,1,0, .0005, .00002*TWO_PI);
   llSetLinkTexture(getlink("leaves"), leaves, ALL_SIDES);
   llSetLinkTexture(LINK_THIS, bark, ALL_SIDES);
@@ -81,7 +81,7 @@ default
     string yellow = "68b380df-5c13-76e4-80c7-d888f4e2ef69";
     string orange = "24053f3f-31ff-5ff7-582b-af5f7245e41a";
     string red = "8c7021f7-25a3-6f97-e35a-878227469745";
-    string winter = "6e073c4f-8211-8c04-c231-175b88b47dce";
+    string winter = "a6af7a1a-fc95-4d29-f2df-a26b2799404b";
     string emityellow = "80cd4697-d44b-490c-50eb-706b81650242";
     string emitorange = "8d070fab-431d-7a9a-5b03-605970bc399f";
     string emitred = "635fa33b-c572-200d-77b0-a074650345ad";
@@ -190,7 +190,7 @@ timer()
     string emitorange = "8d070fab-431d-7a9a-5b03-605970bc399f";
     string emitred = "635fa33b-c572-200d-77b0-a074650345ad";
     string green = "7cc10805-188c-5fef-f434-f1bce1907be9";
-    string winter = "6e073c4f-8211-8c04-c231-175b88b47dce";
+    string winter = "a6af7a1a-fc95-4d29-f2df-a26b2799404b";
     string yellow = "68b380df-5c13-76e4-80c7-d888f4e2ef69";
     string orange = "24053f3f-31ff-5ff7-582b-af5f7245e41a";
     string red = "8c7021f7-25a3-6f97-e35a-878227469745";
