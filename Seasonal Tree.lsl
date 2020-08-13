@@ -7,7 +7,7 @@ menu(key id)
 {
     if (id == llGetOwner() || access == 2 || (access == 1 && llSameGroup(id)))
     {
-        list main = ["Green", "Red", "Orange", "Yellow", "Magenta", "Winter", "Automatic"];
+        list main = ["Green", "Red", "Orange", "Yellow", "Magenta", "Pink", "Winter", "Automatic"];
         if (id != llGetOwner()) llDialog(id,"Menu ", main, chan);
         else                   llDialog(id,"Menu ", main+["Access"], chan);
     }
@@ -82,6 +82,7 @@ default
     string orange = "24053f3f-31ff-5ff7-582b-af5f7245e41a";
     string red = "8c7021f7-25a3-6f97-e35a-878227469745";
     string magenta = "06484def-4ab9-526e-475b-b39cde793da5";
+    string pink = "2b7f9397-ef4a-7a1a-5961-c149a5eef245";
     string winter = "be87cd58-62fd-6f0b-4eea-a3fd251d18d9";
     string emityellow = "80cd4697-d44b-490c-50eb-706b81650242";
     string emitorange = "8d070fab-431d-7a9a-5b03-605970bc399f";
@@ -108,6 +109,11 @@ default
     if (text == "Magenta")
     {
         setLeaves(magenta, emitred, bark);
+        llSetTimerEvent(0.0);
+    }
+    if (text == "Pink")
+    {
+        setLeaves(pink, emitred, bark);
         llSetTimerEvent(0.0);
     }
     if (text == "Automatic")
