@@ -23,9 +23,9 @@ setLeaves(string leaves, string color)
 {
   if (color == "none")
   {
-    llSetLinkParticleSystem(getlink("leaves"), []);
+    llLinkParticleSystem(getlink("leaves"), []);
   }
-  else llSetLinkParticleSystem(getlink("leaves") falling_leaves());
+  else llLinkParticleSystem(getlink("leaves"), falling_leaves());
   llSetLinkTexture(getlink("leaves"), leaves, ALL_SIDES);
 }
 
@@ -143,7 +143,7 @@ default
         }
         else if(daynum > 94)
         {
-            setLeaves(green, none);
+            setLeaves(green, "none");
         }
         else
         {
@@ -216,7 +216,8 @@ timer()
         }
         if (llGetSubString(llGetDate(),5,9) == "03-01")
         {
-            setLeaves(green, none);
+            setLeaves(green, "none");
         }
         llSetTimerEvent(43200.0);
+    }
 }
