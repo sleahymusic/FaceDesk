@@ -113,7 +113,7 @@ default
     }
     if (text == "Pink")
     {
-        setLeaves(pink, emitred, bark);
+        setLeaves(pink, "none", bark);
         llSetTimerEvent(0.0);
     }
     if (text == "Automatic")
