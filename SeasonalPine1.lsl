@@ -1,7 +1,7 @@
 integer chan = -71937533;
 integer ch;
-key listenkey;
-key listenkeyB;
+integer listenkey;
+integer listenkeyB;
 integer access = 0;
 integer g_timer = FALSE;
 integer g_automatic = TRUE;
