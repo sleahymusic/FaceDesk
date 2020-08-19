@@ -1,5 +1,5 @@
 integer chan = -71937533;
-integer ch;
+integer channel;
 integer listenkey;
 integer listenkeyB;
 integer access = 0;
@@ -11,7 +11,7 @@ menu(key id)
     if (id == llGetOwner() || access == 2 || (access == 1 && llSameGroup(id))) //check who touched and give appropriate menu or ignore
     {
         g_timer = 30; //use the timer for turning off the listen
-        listenkeyB = llListen(ch, "", id,""); // open the listen for the person who touched
+        listenkeyB = llListen(channel, "", id,""); // open the listen for the person who touched
         list main = ["Green", "LightSnow", "HeavySnow", "Automatic"];
         if (id != llGetOwner()) llDialog(id,"Menu ", main, chan);
         else llDialog(id,"Menu ", main+["Access"], chan);
@@ -49,7 +49,7 @@ default
   }
   listen(integer ch, string name, key id, string text)
   {
-      if(ch == ch)
+      if(ch == channel)
       {
           if (llListFindList(["Owner","Group","All"],[text]) != -1) access = llListFindList(["Owner","Group","All"],[text]);
           if (text == "Access") llDialog(id,"Choose access ",["Owner","Group","All"],ch);
