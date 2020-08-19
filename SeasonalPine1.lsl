@@ -3,19 +3,19 @@ integer ch;
 integer listenkey;
 integer listenkeyB;
 integer access = 0;
-integer g_timer = FALSE;
+integer g_timer;
 integer g_automatic = TRUE;
 
 menu(key id)
 {
-    if (id == llGetOwner() || access == 2 || (access == 1 && llSameGroup(id)))
+    if (id == llGetOwner() || access == 2 || (access == 1 && llSameGroup(id))) //check who touched and give appropriate menu or ignore
     {
-        g_timer = TRUE;
-        llSetTimerEvent(1);
-        listenkeyB = llListen(ch, "", id,"");
+        g_timer = 30; //use the timer for turning off the listen
+        listenkeyB = llListen(ch, "", id,""); // open the listen for the person who touched
         list main = ["Green", "LightSnow", "HeavySnow", "Automatic"];
         if (id != llGetOwner()) llDialog(id,"Menu ", main, chan);
         else llDialog(id,"Menu ", main+["Access"], chan);
+        llSetTimerEvent(1);
     }
 }
 integer getlink(string primname)
@@ -149,18 +149,15 @@ default
   }
   timer()
   {
-      integer time;
-      if(g_timer)
+      if(g_timer > 0)
       {
-          if(time > 29)
+          if(g_timer == 0)
           {
-              time = 0;
-              g_timer = FALSE;
               llListenRemove(listenkeyB);
               if(g_automatic) llSetTimerEvent(43200.0);
               else llSetTimerEvent(0);
           }
-          else time++;
+          else g_timer--;
       }
       else
       {
