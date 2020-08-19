@@ -3,7 +3,7 @@ integer ch;
 integer listenkey;
 integer listenkeyB;
 integer access = 0;
-integer g_timer;
+integer g_timer = -1;
 integer g_automatic = TRUE;
 
 menu(key id)
@@ -149,7 +149,7 @@ default
   }
   timer()
   {
-      if(g_timer > 0)
+      if(g_timer >= 0)
       {
           if(g_timer == 0)
           {
@@ -157,7 +157,7 @@ default
               if(g_automatic) llSetTimerEvent(43200.0);
               else llSetTimerEvent(0);
           }
-          else g_timer--;
+          g_timer--;
       }
       else
       {
