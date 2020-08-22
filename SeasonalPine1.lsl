@@ -10,7 +10,7 @@ string light = "49de4a3c-7bbe-e1a3-ead7-2a41d863c71d";
 string heavy = "78e3cf20-37f8-4f9a-6192-ee0d3aa23716";
 string bark = "f57f2cbd-7e2a-8ddb-44db-41255350f8c0";
 string barkl = "be63fab8-581d-b2bc-688f-db549aac6e56";
-string barkh = "650aaf64-f2e7-349a-8e2c-1ced7702a92c";
+//string barkh = "650aaf64-f2e7-349a-8e2c-1ced7702a92c";
 
 
 menu(key id)
@@ -72,7 +72,7 @@ default
           }
           if(text == "HeavySnow")
           {
-              setBranches(heavy, barkh);
+              setBranches(heavy, barkl);
               g_automatic = FALSE;
           }
           if(text == "Automatic")
@@ -81,7 +81,7 @@ default
               integer daynum = (integer)llGetSubString(llGetDate(),5,6)*31+(integer)llGetSubString(llGetDate(),8,9);
               if(daynum > 386)
               {
-                  setBranches(heavy, barkh);
+                  setBranches(heavy, barkl);
               }
               else if(daynum > 368)
               {
@@ -95,7 +95,7 @@ default
               {
                   setBranches(light, barkl);
               }
-              else setBranches(heavy, barkh);
+              else setBranches(heavy, barkl);
               llSetTimerEvent(.1);
           }
           if(text != "Access") menu(id);
@@ -114,7 +114,7 @@ default
           }
           if(text == "HeavySnow")
           {
-              setBranches(heavy, barkh);
+              setBranches(heavy, barkl);
               g_automatic = FALSE;
           }
           if(text == "Automatic")
@@ -123,7 +123,7 @@ default
               integer daynum = (integer)llGetSubString(llGetDate(),5,6)*31+(integer)llGetSubString(llGetDate(),8,9);
               if(daynum > 386)
               {
-                  setBranches(heavy, barkh);
+                  setBranches(heavy, barkl);
               }
               else if(daynum > 368)
               {
@@ -137,7 +137,7 @@ default
               {
                   setBranches(light, barkl);
               }
-              else setBranches(heavy, barkh);
+              else setBranches(heavy, barkl);
               llSetTimerEvent(.1);
           }
       }
@@ -157,7 +157,7 @@ default
       else
       {
           if (llGetSubString(llGetDate(),5,9) == "11-29") setBranches(light, barkl);
-          else if (llGetSubString(llGetDate(),5,9) == "12-15") setBranches(heavy, barkh);
+          else if (llGetSubString(llGetDate(),5,9) == "12-15") setBranches(heavy, barkl);
           else if (llGetSubString(llGetDate(),5,9) == "02-01") setBranches(light, barkl);
           else if (llGetSubString(llGetDate(),5,9) == "03-01") setBranches(green, bark);
           llSetTimerEvent(43200.0);
