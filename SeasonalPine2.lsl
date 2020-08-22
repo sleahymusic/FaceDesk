@@ -47,7 +47,7 @@ default
   state_entry()
   {
     channel = -(integer)("0x" + llGetSubString(llGetKey(),3,8));
-    listenkey = llListen(chan, "", llGetOwner(), "");
+    listenkey = llListen(chan, "","", "");
     llSetTimerEvent(0.1);
   }
   touch_start(integer total_number)
@@ -102,6 +102,7 @@ default
       }
       if(ch == chan)
       {
+          float random = llFrand(2);
           if(text == "Green")
           {
               setBranches(green, bark);
@@ -116,6 +117,19 @@ default
           {
               setBranches(heavy, barkl);
               g_automatic = FALSE;
+          }
+          if(text == "Mixed")
+          {
+              if(random < 1)
+              {
+                 setBranches(light, barkl);
+                 g_automatic = FALSE;
+              }
+              else
+              {
+                  setBranches(heavy, barkl);
+                  g_automatic = FALSE;
+              }
           }
           if(text == "Automatic")
           {
