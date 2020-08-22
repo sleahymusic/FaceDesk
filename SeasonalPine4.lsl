@@ -47,7 +47,7 @@ default
   state_entry()
   {
     channel = -(integer)("0x" + llGetSubString(llGetKey(),3,8));
-    chan = -(integer)("0x" + llGetSubString(llGetOwnerKey(),2,8));
+    chan = -(integer)("0x" + llGetSubString(llGetOwner(),2,8));
     listenkey = llListen(chan, "", "", "");
     llSetTimerEvent(0.1);
   }

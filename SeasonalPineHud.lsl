@@ -8,7 +8,7 @@ default
 {
   state_entry()
   {
-      chan = -(integer)("0x" + llGetSubString(llGetOwnerKey(),2,8));
+      chan = -(integer)("0x" + llGetSubString(llGetOwner(),2,8));
   }
   touch_start(integer total_number)
   {
