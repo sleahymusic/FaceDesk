@@ -121,7 +121,8 @@ default
           //llSetTimerEvent(0.0);
           gSit = FALSE;
           llSetTimerEvent(0.0);
-          llSetTimerEvent(0.01);
+          if(gMode == "Capture") llSetTimerEvent(0.01);
+          if(gMode == "Fall") stop_all_animations();
       }
       else
       {
@@ -141,6 +142,14 @@ default
               gSit = TRUE;
               llSetTimerEvent(15);
 
+          }
+          if(gMode == "Fall")
+          {
+              llStopAnimation("sit");
+              llStartAnimation("SitFall");
+              llStopObjectAnimation("Stationary Chair");
+              llStartObjectAnimation("BackupChair");
+              gSit = TRUE;
           }
 
       }
@@ -190,6 +199,7 @@ default
           if(text == "RoamOff")
           {
               gMode = "Capture";
+              llDialog(id, "Capture mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
           if(text == "Float")
           {
@@ -202,10 +212,12 @@ default
           if(text == "Capture")
           {
               gMode = "Capture";
+              llDialog(id, "Capture mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
           if(text == "Fall")
           {
               gMode = "Fall";
+              llDialog(id, "Fall mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
       }
   }
