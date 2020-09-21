@@ -4,6 +4,10 @@ integer access = 0;
 string gMode;
 integer gSit = FALSE;
 key gAgent;
+integer gTimer = TRUE;
+list gFloatAnims = ["FloatingUp", "sky float 1", "space float2", "stand toes spin fast", "Magic carpet5", "fire hydrant", "hover sit hold turn4"];
+string gCurrAnimation;
+string gLastAnimation;
 
 menu(key id)
 {
@@ -106,6 +110,9 @@ default
   state_entry()
   {
       llSitTarget(<0.01, 0.0, 0.35>, ZERO_ROTATION);
+      rotation cameraRotation = llAxisAngle2Rot(<0, 0, 1>, 220 * DEG_TO_RAD);
+      llSetCameraEyeOffset(<-3.5, 0, 1.5> * cameraRotation);
+      llSetCameraAtOffset(<3.5, 0, 1> * cameraRotation);
       stop_all_animations();
       chan = -(integer)("0x" + llGetSubString(llGetKey(),3,8));
       listenkey = llListen(chan, "", NULL_KEY, "");
@@ -114,6 +121,10 @@ default
   changed(integer change)
   {
       gAgent = llAvatarOnSitTarget();
+      if(gMode == "Float")
+      {
+          llUnSit(gAgent);
+      }
       if (llAvatarOnSitTarget()==NULL_KEY)
       {
           //llMessageLinked(speed, integer num, string str, key id);
@@ -194,28 +205,43 @@ default
       {
           if(text == "RoamOn")
           {
+              stop_all_animations();
+              llSetTimerEvent(0.0);
               gMode = "Roam";
           }
           if(text == "RoamOff")
           {
+              stop_all_animations();
+              llSetTimerEvent(0.0);
               gMode = "Capture";
               llDialog(id, "Capture mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
           if(text == "Float")
           {
+              llSetTimerEvent(0.0);
+              stop_all_animations();
               gMode = "Float";
+              gLastAnimation = "Stationary Chair";
+              llSetTimerEvent(.01);
           }
           if(text == "Random")
           {
+              stop_all_animations();
+              llSetTimerEvent(0.0);
               gMode = "Random";
+              gTimer = TRUE;
           }
           if(text == "Capture")
           {
+              stop_all_animations();
+              llSetTimerEvent(0.0);
               gMode = "Capture";
               llDialog(id, "Capture mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
           if(text == "Fall")
           {
+              stop_all_animations();
+              llSetTimerEvent(0.0);
               gMode = "Fall";
               llDialog(id, "Fall mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
@@ -242,6 +268,21 @@ default
               llSetTimerEvent(30);
               gSit = FALSE;
           }
+      }
+      if(gMode == "Float")
+      {          
+          llStopObjectAnimation(gLastAnimation);
+          llStartObjectAnimation("BoneFreeze");
+          string newAnimation;
+          do {
+              integer random = (integer)llFrand(llGetListLength(gFloatAnims));
+              newAnimation = llList2String(gFloatAnims, random);
+          } while (newAnimation == gLastAnimation);
+
+          gLastAnimation = gCurrAnimation;
+          gCurrAnimation = newAnimation;
+          llStartObjectAnimation(newAnimation);
+          llSetTimerEvent(5 + (integer) llFrand (10));
       }
   }
 }
