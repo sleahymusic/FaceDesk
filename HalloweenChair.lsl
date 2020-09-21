@@ -6,8 +6,11 @@ integer gSit = FALSE;
 key gAgent;
 integer gTimer = TRUE;
 list gFloatAnims = ["FloatingUp", "sky float 1", "space float2", "stand toes spin fast", "Magic carpet5", "fire hydrant", "hover sit hold turn4"];
-string gCurrAnimation;
+string gCurrAnimation = "Stationary Chair";
 string gLastAnimation;
+integer gCount;
+integer gHome = TRUE;
+integer gRoaming = FALSE;
 
 menu(key id)
 {
@@ -125,14 +128,14 @@ default
       {
           llUnSit(gAgent);
       }
-      if (llAvatarOnSitTarget()==NULL_KEY)
+      else if (llAvatarOnSitTarget()==NULL_KEY)
       {
           //llMessageLinked(speed, integer num, string str, key id);
           //llMessageLinked(-1, 0, "stop", "");
           //llSetTimerEvent(0.0);
           gSit = FALSE;
-          llSetTimerEvent(0.0);
-          if(gMode == "Capture") llSetTimerEvent(0.01);
+          if(gTimer) llSetTimerEvent(1);
+          if(gMode == "Capture") llSetTimerEvent(1);
           if(gMode == "Fall") stop_all_animations();
       }
       else
@@ -151,6 +154,7 @@ default
               llStopObjectAnimation("Stationary Chair");
               llStartObjectAnimation("HCP_CHAIR");
               gSit = TRUE;
+              gHome = FALSE;
               llSetTimerEvent(15);
 
           }
@@ -205,12 +209,17 @@ default
       {
           if(text == "RoamOn")
           {
+              gTimer = FALSE;
+              gRoaming = TRUE;
               stop_all_animations();
               llSetTimerEvent(0.0);
               gMode = "Roam";
           }
           if(text == "RoamOff")
           {
+              gTimer = FALSE;
+              gRoaming = FALSE;
+              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
               stop_all_animations();
               llSetTimerEvent(0.0);
               gMode = "Capture";
@@ -218,21 +227,34 @@ default
           }
           if(text == "Float")
           {
+              gTimer = FALSE;
+              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              gRoaming = FALSE;
               llSetTimerEvent(0.0);
               stop_all_animations();
               gMode = "Float";
-              gLastAnimation = "Stationary Chair";
+              gCurrAnimation = "Stationary Chair";
               llSetTimerEvent(.01);
           }
           if(text == "Random")
           {
+              gTimer = FALSE;
+              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              gRoaming = FALSE;
               stop_all_animations();
               llSetTimerEvent(0.0);
-              gMode = "Random";
+              llDialog(id, "Random mode ACTIVATED Muhahahaha", ["OK"], -11111);
               gTimer = TRUE;
+              gCount = 0;
+              llSetTimerEvent(1);
+
+
           }
           if(text == "Capture")
           {
+              gTimer = FALSE;
+              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              gRoaming = FALSE;
               stop_all_animations();
               llSetTimerEvent(0.0);
               gMode = "Capture";
@@ -240,6 +262,9 @@ default
           }
           if(text == "Fall")
           {
+              gTimer = FALSE;
+              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              gRoaming = FALSE;
               stop_all_animations();
               llSetTimerEvent(0.0);
               gMode = "Fall";
@@ -249,11 +274,27 @@ default
   }
   timer()
   {
+      if(gTimer)
+      {
+          gCount++;
+          if(gCount == 20 && !gSit)
+          {
+              list modes = ["Float", "RoamOn", "Fall", "Capture"];
+              stop_all_animations();
+              if(gMode == "RoamOn") llMessageLinked(-1, 0, "stop", "");
+              string newMode;
+              integer rand = (integer)llFrand(llGetListLength(modes));
+              newMode = llList2String(modes, rand);
+              gMode = newMode;
+              gCount = 0;
+          }
+          if(gCount == 20 && gSit) gCount = 0;
+      }
       if(gMode == "Capture")
       {
-          if(!gSit)
+          if(!gSit && !gHome)
           {
-              llSetTimerEvent(0.0);
+              if(!gTimer) llSetTimerEvent(0.0);
               llUnSit(gAgent);
               llPushObject(gAgent,<25,0,25>, <0,100,100>, TRUE);
               llStopObjectAnimation("HCP_CHAIR");
@@ -261,7 +302,7 @@ default
               //llMessageLinked(speed);
               llMessageLinked(-1, 0, "go home", "");
           }
-          else
+          else if(gSit)
           {
               //llMessageLinked(speed);
               llMessageLinked(-1, 0, "start", "");
@@ -270,8 +311,8 @@ default
           }
       }
       if(gMode == "Float")
-      {          
-          llStopObjectAnimation(gLastAnimation);
+      {
+          llStopObjectAnimation(gCurrAnimation);
           llStartObjectAnimation("BoneFreeze");
           string newAnimation;
           do {
