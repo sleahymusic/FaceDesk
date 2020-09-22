@@ -124,11 +124,11 @@ default
   changed(integer change)
   {
       gAgent = llAvatarOnSitTarget();
-      if(gMode == "Float")
-      {
-          llUnSit(gAgent);
-      }
-      else if (llAvatarOnSitTarget()==NULL_KEY)
+      //if(gMode == "Float")
+      //{
+          //llUnSit(gAgent);
+      //}
+      if (llAvatarOnSitTarget()==NULL_KEY)
       {
           //llMessageLinked(speed, integer num, string str, key id);
           //llMessageLinked(-1, 0, "stop", "");
@@ -137,6 +137,7 @@ default
           if(gTimer) llSetTimerEvent(1);
           if(gMode == "Capture") llSetTimerEvent(1);
           if(gMode == "Fall") stop_all_animations();
+          if(gMode == "Float") llStopAnimation("sitfreeze");
       }
       else
       {
@@ -178,6 +179,16 @@ default
               gSit = TRUE;
               gHome = FALSE;
               llSetTimerEvent(15);
+          }
+          if(gMode == "Float")
+          {
+              stop_all_animations();
+              llStopAnimation("sit");
+              llStartAnimation("sitfreeze");
+              llStartAnimation("stand toes spin fast");
+              llStartObjectAnimation("stand toes spin fast");
+              gSit = TRUE;
+              llSetTimerEvent(5);
           }
       }
     }
@@ -325,6 +336,7 @@ default
       if(gMode == "Float")
       {
           llStopObjectAnimation(gCurrAnimation);
+          if(gSit) llStopAnimation(gCurrAnimation);
           llStartObjectAnimation("BoneFreeze");
           string newAnimation;
           do {
@@ -335,6 +347,7 @@ default
           gLastAnimation = gCurrAnimation;
           gCurrAnimation = newAnimation;
           llStartObjectAnimation(newAnimation);
+          if(gSit) llStartAnimation(newAnimation);
           llSetTimerEvent(5 + (integer) llFrand (10));
       }
   }
