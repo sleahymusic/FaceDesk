@@ -8,7 +8,7 @@ integer gTimer = TRUE;
 list gFloatAnims = ["FloatingUp", "sky float 1", "space float2", "stand toes spin fast", "Magic carpet5", "fire hydrant", "hover sit hold turn4"];
 string gCurrAnimation = "Stationary Chair";
 string gLastAnimation;
-integer gCount;
+integer gCount = 0;
 integer gHome = TRUE;
 integer gRoaming = FALSE;
 
@@ -166,7 +166,19 @@ default
               llStartObjectAnimation("BackupChair");
               gSit = TRUE;
           }
-
+          if(gMode == "Roam")
+          {
+              gMode = "Capture";
+              llMessageLinked(-1, 0, "stop", "");
+              stop_all_animations();
+              llStopAnimation("sit");
+              llStartAnimation("HCP_HUMAN");
+              llStopObjectAnimation("Stationary Chair");
+              llStartObjectAnimation("HCP_CHAIR");
+              gSit = TRUE;
+              gHome = FALSE;
+              llSetTimerEvent(15);
+          }
       }
     }
   touch_start(integer total_number)
@@ -277,9 +289,9 @@ default
       if(gTimer)
       {
           gCount++;
-          if(gCount == 20 && !gSit)
+          if(gCount >= 20 && !gSit)
           {
-              list modes = ["Float", "RoamOn", "Fall", "Capture"];
+              list modes = ["Float", "Roam", "Fall", "Capture"];
               stop_all_animations();
               if(gMode == "RoamOn") llMessageLinked(-1, 0, "stop", "");
               string newMode;
@@ -288,7 +300,7 @@ default
               gMode = newMode;
               gCount = 0;
           }
-          if(gCount == 20 && gSit) gCount = 0;
+          if(gCount >= 20 && gSit) gCount = 0;
       }
       if(gMode == "Capture")
       {
