@@ -1,13 +1,14 @@
 integer ch = -35119;
 integer chan;
 integer listenkey;
+integer access = 0;
 
 
 menu(key id)
 {
     if (id == llGetOwner() || access == 2 || (access == 1 && llSameGroup(id)))
     {
-        list main = ["WOOD", "CURTAINS" "OPEN", "CLOSE"];
+        list main = ["WOOD", "CURTAINS", "OPEN", "CLOSE"];
         if (id != llGetOwner()) llDialog(id,"Menu ", main, chan);
         else                   llDialog(id,"Menu ", main+["Access"], chan);
     }
@@ -67,7 +68,7 @@ gTexcurtains(string gTex)
        CurtRT = "725db043-2763-48bd-2de2-9bf5ea471ab3";
 
     }
-    llSetLinkPrimitiveParamsFast(getlink("curtainleft"), [17, 1, CurtLT, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0, 34, getlink("curtainright"), 17, 1, CurtRT, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0]);
+    llSetLinkPrimitiveParamsFast(getlink("curtainleft"), [17, 1, CurtLT, <2.0, 1.0, 0.0>, <0.5, 0.0, 0.0>, 3.14, 34, getlink("curtainright"), 17, 1, CurtRT, <2.0, 1.0, 0.0>, <0.5, 0.0, 0.0>, 3.14]);
 }
 default
 {
@@ -86,6 +87,8 @@ default
   }
   listen(integer ch, string name, key id, string text)
   {
+      if (llListFindList(["Owner","Group","All"],[text]) != -1) access = llListFindList(["Owner","Group","All"],[text]);
+      if (text == "Access") llDialog(id,"Choose access ",["Owner","Group","All"],chan);
       if(text == "Back")
       {
           llListenRemove(listenkey); listenkey = llListen(chan, "", id, "");
@@ -96,11 +99,11 @@ default
       {
           if(text == "OPEN")
           {
-              llSay(ch, "curtainopen");
+              llSay(ch, "CURTAINOPEN");
           }
           if(text == "CLOSE")
           {
-              llSay(ch, "curtainclose");
+              llSay(ch, "CURTAINCLOSE");
           }
           if(text == "WOOD")
           {
@@ -112,6 +115,7 @@ default
               llListenRemove(listenkey); listenkey = llListen(chan +2,"",id,"");
               llDialog(id,"Curtain Texture Menu ",["Tan", "White", "Back"],chan+2);
           }
+
       }
       if(ch == chan +1)
       {
