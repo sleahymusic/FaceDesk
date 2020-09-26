@@ -170,7 +170,7 @@ default
           if(gMode == "Roam")
           {
               gMode = "Capture";
-              llMessageLinked(-1, 0, "stop", "");
+              llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               stop_all_animations();
               llStopAnimation("sit");
               llStartAnimation("HCP_HUMAN");
@@ -242,7 +242,7 @@ default
           {
               gTimer = FALSE;
               gRoaming = FALSE;
-              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              if(gRoaming) llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               stop_all_animations();
               llSetTimerEvent(0.0);
               gMode = "Capture";
@@ -251,7 +251,7 @@ default
           if(text == "Float")
           {
               gTimer = FALSE;
-              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              if(gRoaming) llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               gRoaming = FALSE;
               llSetTimerEvent(0.0);
               stop_all_animations();
@@ -262,7 +262,7 @@ default
           if(text == "Random")
           {
               gTimer = FALSE;
-              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              if(gRoaming) llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               gRoaming = FALSE;
               stop_all_animations();
               llSetTimerEvent(0.0);
@@ -276,7 +276,7 @@ default
           if(text == "Capture")
           {
               gTimer = FALSE;
-              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              if(gRoaming) llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               gRoaming = FALSE;
               stop_all_animations();
               llSetTimerEvent(0.0);
@@ -286,7 +286,7 @@ default
           if(text == "Fall")
           {
               gTimer = FALSE;
-              if(gRoaming) llMessageLinked(-1, 0, "stop", "");
+              if(gRoaming) llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               gRoaming = FALSE;
               stop_all_animations();
               llSetTimerEvent(0.0);
@@ -294,6 +294,10 @@ default
               llDialog(id, "Fall mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
       }
+  }
+  link_message(integer sender_num, integer num, string str, key id)
+  {
+      if
   }
   timer()
   {
@@ -304,7 +308,7 @@ default
           {
               list modes = ["Float", "Roam", "Fall", "Capture"];
               stop_all_animations();
-              if(gMode == "RoamOn") llMessageLinked(-1, 0, "stop", "");
+              if(gMode == "RoamOn") llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               string newMode;
               integer rand = (integer)llFrand(llGetListLength(modes));
               newMode = llList2String(modes, rand);
@@ -322,13 +326,13 @@ default
               llPushObject(gAgent,<25,0,25>, <0,100,100>, TRUE);
               llStopObjectAnimation("HCP_CHAIR");
               llStartObjectAnimation("ChairWalk");
-              //llMessageLinked(speed);
-              llMessageLinked(-1, 0, "go home", "");
+              llMessageLinked(LINK_THIS,0,"update Speed=2",NULL_KEY);
+              llMessageLinked(LINK_THIS, 1, "GoHome", NULL_KEY);
           }
           else if(gSit)
           {
               //llMessageLinked(speed);
-              llMessageLinked(-1, 0, "start", "");
+              llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
               llSetTimerEvent(30);
               gSit = FALSE;
           }
