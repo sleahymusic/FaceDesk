@@ -220,8 +220,8 @@ default
           if(text == "SETHOME") llMessageLinked(LINK_THIS, 1, "sethome", NULL_KEY);
           if(text == "Access")
           {
-              llListenRemove(listenkey); listenkey = llListen(chan +4,"",id,"");
-              llDialog(id,"Choose access ",["Owner", "Group", "ALL"],chan+4);
+              llListenRemove(listenkey); listenkey = llListen(chan +3,"",id,"");
+              llDialog(id,"Choose access ",["Owner", "Group", "ALL"],chan+3);
           }
       }
       if(ch == chan +1)
@@ -268,7 +268,6 @@ default
           }
           if(text == "Random")
           {
-              gTimer = FALSE;
               if(gRoaming) llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               gRoaming = FALSE;
               stop_all_animations();
@@ -301,6 +300,10 @@ default
               llDialog(id, "Fall mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
       }
+      if(ch == chan +3)
+      {
+          access = llListFindList(["Owner","Group","ALL"],[text]);
+      }
   }
  link_message(integer sender_num, integer num, string str, key id)
   {
@@ -308,7 +311,19 @@ default
       {
           llSetTimerEvent(0.0);
           stop_all_animations();
-          gMode = "Capture";
+          if(gTimer)
+          {
+              gMode = "Random";
+              llSetTimerEvent(1);
+          }
+          if(gRoaming)
+          {
+              stop_all_animations();
+              llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
+              llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
+              llStartObjectAnimation("ChairWalk");
+          }
+          else gMode = "Capture";
       }
   }
   timer()
@@ -337,6 +352,7 @@ default
               integer rand = (integer)llFrand(llGetListLength(modes));
               newMode = llList2String(modes, rand);
               gMode = newMode;
+              if(gMode == "Float") gCount = 17;
               gCount = 0;
           }
           if(gCount >= 20 && gSit) gCount = 0;
