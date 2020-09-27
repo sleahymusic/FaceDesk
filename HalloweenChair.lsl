@@ -233,21 +233,26 @@ default
       {
           if(text == "RoamOn")
           {
-              if(!gRoaming) llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
+              if(!gRoaming)
+              {
+                  stop_all_animations();
+                  llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
+                  llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
+                  llStartObjectAnimation("ChairWalk");
+              }
               gTimer = FALSE;
               gRoaming = TRUE;
-              stop_all_animations();
               llSetTimerEvent(0.0);
               gMode = "Roam";
           }
           if(text == "RoamOff")
           {
               gTimer = FALSE;
-              gRoaming = FALSE;
               if(gRoaming) llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               stop_all_animations();
               llSetTimerEvent(0.0);
               gMode = "Capture";
+              gRoaming = FALSE;
               llDialog(id, "Capture mode ACTIVATED Muhahahaha", ["OK"], -11111);
           }
           if(text == "Float")
@@ -315,7 +320,19 @@ default
           {
               list modes = ["Float", "Roam", "Fall", "Capture"];
               stop_all_animations();
-              if(gMode == "RoamOn") llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
+              if(gRoaming)
+              {
+                  llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
+                  llMessageLinked(LINK_THIS, 1, "reload", NULL_KEY);
+                  gRoaming = FALSE;
+              }
+              if(gMode == "RoamOn")
+              {
+                  llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
+                  llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
+                  llStartObjectAnimation("ChairWalk");
+                  gRoaming = TRUE;
+              }
               string newMode;
               integer rand = (integer)llFrand(llGetListLength(modes));
               newMode = llList2String(modes, rand);
@@ -341,7 +358,7 @@ default
           }
           else if(gSit)
           {
-              //llMessageLinked(speed);
+              llMessageLinked(LINK_THIS, 1, "reload", NULL_KEY);
               llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
               llSetTimerEvent(30);
               gSit = FALSE;
