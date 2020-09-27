@@ -4,7 +4,7 @@ integer access = 0;
 string gMode;
 integer gSit = FALSE;
 key gAgent;
-integer gTimer = TRUE;
+integer gTimer = FALSE;
 list gFloatAnims = ["FloatingUp", "sky float 1", "space float2", "stand toes spin fast", "Magic carpet5", "fire hydrant", "hover sit hold turn4"];
 string gCurrAnimation = "Stationary Chair";
 string gLastAnimation;
@@ -296,10 +296,15 @@ default
           }
       }
   }
-//  link_message(integer sender_num, integer num, string str, key id)
-//  {
-//      if
-//  }
+ link_message(integer sender_num, integer num, string str, key id)
+  {
+      if(str == "home")
+      {
+          llSetTimerEvent(0.0)
+          stop_all_animations();
+          gMode = "Capture";
+      }
+  }
   timer()
   {
       if(gTimer)
@@ -327,7 +332,7 @@ default
               llPushObject(gAgent,<25,0,25>, <0,100,100>, TRUE);
               llStopObjectAnimation("HCP_CHAIR");
               llStartObjectAnimation("ChairWalk");
-              llMessageLinked(LINK_THIS,0,"update Speed=2",NULL_KEY);
+              llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               llMessageLinked(LINK_THIS, 1, "GoHome", NULL_KEY);
           }
           else if(gSit)
