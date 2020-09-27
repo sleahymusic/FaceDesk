@@ -156,7 +156,7 @@ default
               llStartObjectAnimation("HCP_CHAIR");
               gSit = TRUE;
               gHome = FALSE;
-              llSetTimerEvent(15);
+              llSetTimerEvent(12);
 
           }
           if(gMode == "Fall")
@@ -328,11 +328,13 @@ default
           if(!gSit && !gHome)
           {
               if(!gTimer) llSetTimerEvent(0.0);
+              llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
+
               llUnSit(gAgent);
               llPushObject(gAgent,<25,0,25>, <0,100,100>, TRUE);
               llStopObjectAnimation("HCP_CHAIR");
               llStartObjectAnimation("ChairWalk");
-              llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
+
               llMessageLinked(LINK_THIS, 1, "GoHome", NULL_KEY);
               gHome = TRUE;
           }
