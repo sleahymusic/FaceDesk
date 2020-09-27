@@ -16,7 +16,7 @@ menu(key id)
 {
     if (id == llGetOwner() || access == 2 || (access == 1 && llSameGroup(id)))
     {
-        list main = ["TEXTURES", "MODE"];
+        list main = ["TEXTURES", "MODE", "SETHOME"];
         if (id != llGetOwner()) llDialog(id,"Menu ", main, chan);
         else                   llDialog(id,"Menu ", main+["Access"], chan);
     }
@@ -217,6 +217,7 @@ default
               llListenRemove(listenkey); listenkey = llListen(chan +2,"",id,"");
               llDialog(id,"Chair Mode Menu ",["Capture", "Fall", "RoamOn", "RoamOff", "Float", "Random", "Back"],chan+2);
           }
+          if(text == "SETHOME") llMessageLinked(LINK_THIS, 1, "sethome", NULL_KEY);
           if(text == "Access")
           {
               llListenRemove(listenkey); listenkey = llListen(chan +4,"",id,"");
@@ -334,7 +335,7 @@ default
               llPushObject(gAgent,<25,0,25>, <0,100,100>, TRUE);
               llStopObjectAnimation("HCP_CHAIR");
               llStartObjectAnimation("ChairWalk");
-
+              llSleep(1);
               llMessageLinked(LINK_THIS, 1, "GoHome", NULL_KEY);
               gHome = TRUE;
           }
