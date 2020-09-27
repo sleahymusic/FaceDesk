@@ -178,7 +178,7 @@ default
               llStartObjectAnimation("HCP_CHAIR");
               gSit = TRUE;
               gHome = FALSE;
-              llSetTimerEvent(15);
+              llSetTimerEvent(12);
           }
           if(gMode == "Float")
           {
@@ -334,6 +334,7 @@ default
               llStartObjectAnimation("ChairWalk");
               llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
               llMessageLinked(LINK_THIS, 1, "GoHome", NULL_KEY);
+              gHome = TRUE;
           }
           else if(gSit)
           {
