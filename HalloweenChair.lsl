@@ -1,5 +1,7 @@
 integer chan;
+integer chanA = 33;
 integer listenkey;
+integer listenkeyA;
 integer access = 0;
 string gMode;
 integer gSit = FALSE;
@@ -119,6 +121,7 @@ default
       stop_all_animations();
       chan = -(integer)("0x" + llGetSubString(llGetKey(),3,8));
       listenkey = llListen(chan, "", NULL_KEY, "");
+      listenkeyA = llListen(chanA, "", llGetOwner(), "");
       gMode = "Capture";
   }
   changed(integer change)
@@ -204,6 +207,22 @@ default
           llListenRemove(listenkey); listenkey = llListen(chan, "", id, "");
           menu(id);
           return;
+      }
+      if(ch == chanA)
+      {
+          if(text == llToLower("go home"))
+          {
+              llMessageLinked(LINK_THIS, 1, "GoHome", NULL_KEY);
+              stop_all_animations();
+              llStartObjectAnimation("ChairWalk");
+              gHome = TRUE;
+          }
+          if(text == llToLower("stop"))
+          {
+              llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
+              stop_all_animations();
+              gRoaming = FALSE;
+          }
       }
       if(ch == chan)
       {
@@ -341,7 +360,7 @@ default
                   llMessageLinked(LINK_THIS, 1, "reload", NULL_KEY);
                   gRoaming = FALSE;
               }
-              if(gMode == "RoamOn")
+              if(gMode == "Roam")
               {
                   llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
                   llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
@@ -352,8 +371,8 @@ default
               integer rand = (integer)llFrand(llGetListLength(modes));
               newMode = llList2String(modes, rand);
               gMode = newMode;
-              if(gMode == "Float") gCount = 17;
               gCount = 0;
+              if(gMode == "Float") gCount = 17;
           }
           if(gCount >= 20 && gSit) gCount = 0;
       }
