@@ -296,10 +296,10 @@ default
           }
       }
   }
-  link_message(integer sender_num, integer num, string str, key id)
-  {
-      if
-  }
+//  link_message(integer sender_num, integer num, string str, key id)
+//  {
+//      if
+//  }
   timer()
   {
       if(gTimer)
