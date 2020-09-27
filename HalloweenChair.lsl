@@ -232,6 +232,7 @@ default
       {
           if(text == "RoamOn")
           {
+              if(!gRoaming) llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
               gTimer = FALSE;
               gRoaming = TRUE;
               stop_all_animations();
