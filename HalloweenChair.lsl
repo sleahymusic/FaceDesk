@@ -300,7 +300,7 @@ default
   {
       if(str == "home")
       {
-          llSetTimerEvent(0.0)
+          llSetTimerEvent(0.0);
           stop_all_animations();
           gMode = "Capture";
       }
