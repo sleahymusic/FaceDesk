@@ -1,6 +1,7 @@
 integer chan;
 integer listenkey;
 key gAgent;
+integer access = 0;
 
 
 menu(key id)
@@ -78,7 +79,7 @@ gTexchair(string gTex)
 
 
     }
-    llSetLinkPrimitiveParamsFast(getlink("FaceDesk - Animesh Halloween Chair"), [17, 1, FrameT, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0,
+    llSetLinkPrimitiveParamsFast(getlink("FaceDesk - Halloween Chair"), [17, 1, FrameT, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0,
         37, 1, FrameN, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0,
         36, 1, FrameS, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0, <1.0, 1.0, 1.0>, 51, 0, 17, 0, SeatT, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0,
             37, 0, SeatN, <1.0, 1.0, 0.0>, ZERO_VECTOR, 0.0]);
