@@ -153,7 +153,7 @@ default
       {
           if(gMode == "Capture")
           {
-              llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
+              llMessageLinked(LINK_THIS, 1, "Reload", NULL_KEY);
               llStopAnimation("sit");
               llStartAnimation("HCP_HUMAN");
               llStopObjectAnimation("Stationary Chair");
@@ -182,6 +182,7 @@ default
               llStartObjectAnimation("HCP_CHAIR");
               gSit = TRUE;
               gHome = FALSE;
+              llMessageLinked(LINK_THIS, 1, "Reload", NULL_KEY);
               llSetTimerEvent(12);
           }
           if(gMode == "Float")
@@ -371,7 +372,8 @@ default
               }
               if(gMode == "Roam")
               {
-
+                  llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
+                  llSleep(2);
                   llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
                   llStartObjectAnimation("ChairWalk");
                   gRoaming = TRUE;
