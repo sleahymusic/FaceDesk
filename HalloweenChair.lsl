@@ -153,6 +153,7 @@ default
       {
           if(gMode == "Capture")
           {
+              llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
               llStopAnimation("sit");
               llStartAnimation("HCP_HUMAN");
               llStopObjectAnimation("Stationary Chair");
@@ -212,6 +213,7 @@ default
       {
           if(text == llToLower("go home"))
           {
+              llSetTimerEvent(0.0);
               llMessageLinked(LINK_THIS, 1, "GoHome", NULL_KEY);
               stop_all_animations();
               llStartObjectAnimation("ChairWalk");
@@ -256,6 +258,7 @@ default
               {
                   stop_all_animations();
                   llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
+                  llSleep(2);
                   llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
                   llStartObjectAnimation("ChairWalk");
               }
@@ -354,7 +357,13 @@ default
           {
               list modes = ["Float", "Roam", "Fall", "Capture"];
               stop_all_animations();
-              if(gRoaming)
+
+              string newMode;
+              integer rand = (integer)llFrand(llGetListLength(modes));
+              newMode = llList2String(modes, rand);
+              gMode = newMode;
+              if(gAgent) llUnSit(gAgent);
+              if(gRoaming && gMode != "Roam")
               {
                   llMessageLinked(LINK_THIS, FALSE, "Roam", NULL_KEY);
                   llMessageLinked(LINK_THIS, 1, "reload", NULL_KEY);
@@ -362,15 +371,11 @@ default
               }
               if(gMode == "Roam")
               {
-                  llMessageLinked(LINK_THIS, 1, "update speed=1", NULL_KEY);
+
                   llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
                   llStartObjectAnimation("ChairWalk");
                   gRoaming = TRUE;
               }
-              string newMode;
-              integer rand = (integer)llFrand(llGetListLength(modes));
-              newMode = llList2String(modes, rand);
-              gMode = newMode;
               gCount = 0;
               if(gMode == "Float") gCount = 17;
           }
@@ -394,6 +399,7 @@ default
           else if(gSit)
           {
               llMessageLinked(LINK_THIS, 1, "reload", NULL_KEY);
+              llSleep(2);
               llMessageLinked(LINK_THIS, TRUE, "Roam", NULL_KEY);
               llSetTimerEvent(30);
               gSit = FALSE;
