@@ -58,17 +58,17 @@ gTexcurtains(string gTex)
 
     if(gTex == "White")
     {
-        CurtLT = "5053f791-29d6-d269-9834-d56be9873248";
-        CurtRT = "4712d838-b76b-8a06-519b-5d89a5b9bb70";
+        CurtLT = "784286b0-f1d8-5522-201e-cec17feb2155";
+        CurtRT = "59e8d110-744b-2324-fe47-fe152bff3ac2";
 
     }
     else if(gTex == "Tan")
     {
-       CurtLT = "4e6c999f-b8c7-b60c-2d92-1619c0c6e853";
-       CurtRT = "725db043-2763-48bd-2de2-9bf5ea471ab3";
+       CurtLT = "32d4b6c5-42db-9e58-bf84-ddb39b292781";
+       CurtRT = "65fcf6e1-70c4-4c44-55db-fb1b7cad7de6";
 
     }
-    llSetLinkPrimitiveParamsFast(getlink("curtainleft"), [17, 1, CurtLT, <2.0, 1.0, 0.0>, <0.5, 0.0, 0.0>, 3.14, 34, getlink("curtainright"), 17, 1, CurtRT, <2.0, 1.0, 0.0>, <0.5, 0.0, 0.0>, 3.14]);
+    llSetLinkPrimitiveParamsFast(getlink("curtainleft"), [17, ALL_SIDES, CurtLT, <2.0, 1.0, 0.0>, <0.5, 0.003, 0.003>, 3.14, 34, getlink("curtainright"), 17, ALL_SIDES, CurtRT, <2.0, 1.0, 0.0>, <0.5, 0.003, 0.003>, 3.14]);
 }
 default
 {

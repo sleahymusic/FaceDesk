@@ -116,6 +116,7 @@ default
       if(ch == chan +3)
       {
           access = llListFindList(["Owner","Group","ALL"],[text]);
+          llListenRemove(listenkey); listenkey = llListen(chan, "", id, "");
           menu(id);
       }
   }
